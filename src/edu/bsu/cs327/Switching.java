@@ -4,39 +4,33 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Switching {
-    ArrayList<HashMap<String, Integer>>switchTable = new ArrayList<HashMap<String, Integer>>();
+    ArrayList<HashMap> switchTable = new ArrayList<HashMap>();
 
-    public String handleInput(String srcMacAddress, int portNumber, String destMacAddress){
+    public String handleInput(String srcMacAddress, int portNumber, String destMacAddress) {
         String output = "";
         HashMap tableEntry = new HashMap();
         tableEntry.put(srcMacAddress, portNumber);
-        switchTable.add(tableEntry);
         for (HashMap hm : switchTable) {
             if (hm.containsKey(destMacAddress)) {
-                output = hm.get(destMacAddress).toString();
+                output += "Port #: " + hm.get(destMacAddress).toString();
             } else {
-                output = "Ports flooded";
+                output += "Ports flooded";
             }
         }
+        switchTable.add(tableEntry);
         return output;
     }
 
-//    public String handleDestInput(String destMacAddress) {
-//        String output = "";
-//        for (HashMap hm : switchTable) {
-//            if (hm.containsKey(destMacAddress)) {
-//                output = hm.get(destMacAddress).toString();
-//            } else {
-//                output = "blah";
-//            }
-//        }
-//        return output;
-//    }
+    public ArrayList<HashMap> getTable(){
+        return switchTable;
+    }
 
-    public String frameErrorCheck(String macAddress){
+    public String frameErrorCheck(String macAddress) {
         String output = "";
-        if(macAddress.length() != 6){
+        if (macAddress.length() != 6) {
             output += "Error: MAC address must be 6 bytes!";
+        } else {
+            output += "NoError";
         }
         return output;
     }
@@ -45,7 +39,11 @@ public class Switching {
         String output = "";
         if (portNumber > 24) {
             output += "Error: Port# not supported!";
+        } else {
+            output += "NoError";
         }
         return output;
     }
+
+
 }
